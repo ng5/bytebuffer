@@ -71,20 +71,6 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <!-- if your benchmarks live in src/test/java, enable the processor for tests too -->
-                    <testAnnotationProcessorPaths>
-                        <path>
-                            <groupId>org.openjdk.jmh</groupId>
-                            <artifactId>jmh-generator-annprocess</artifactId>
-                            <version>1.37</version>
-                        </path>
-                        <!-- Lombok processor for test sources -->
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </testAnnotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
