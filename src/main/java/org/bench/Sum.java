@@ -9,12 +9,6 @@ public class Sum {
     private static final VarHandle LONG_BB_VH = MethodHandles.byteBufferViewVarHandle(long[].class, ByteOrder.LITTLE_ENDIAN);
     private static final VarHandle DOUBLE_BB_VH = MethodHandles.byteBufferViewVarHandle(double[].class, ByteOrder.LITTLE_ENDIAN);
 
-    private static double expectedSum(int longsCount, int doublesCount) {
-        long sumLongs = (longsCount * (longsCount + 1L)) / 2L;
-        long sumInts = (doublesCount * (doublesCount + 1L)) / 2L;
-        return sumLongs + sumInts + (doublesCount * 0.5);
-    }
-
     public static double byList(java.util.List<Object> list, int longsCount, int doublesCount) {
         double sum = 0.0;
         for (int i = 0; i < longsCount; i++) sum += (long) list.get(i);

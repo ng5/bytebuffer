@@ -1,13 +1,18 @@
 package org.bench;
 
-import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
-public class SpatialLocality {
-    public static void main(String[] args) throws Exception {
-        org.openjdk.jmh.Main.main(args);
-    }
+import java.util.concurrent.TimeUnit;
 
+
+@Fork(1)
+@Warmup(iterations = 2, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.NANOSECONDS)
+@Timeout(time = 10, timeUnit = TimeUnit.SECONDS)
+public class SpatialLocalityBenchmark {
     @Benchmark
     public void testSumList(ByteBufferState byteBufferState, Blackhole blackhole) {
         int longsCount = byteBufferState.getLongsCount();
