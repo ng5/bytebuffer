@@ -19,7 +19,7 @@ public class ByteBufferState {
     ByteBuffer directByteBuffer;
 
     // Pair param to avoid Cartesian product across longs and doubles
-    @Param({"4x4", "8x8", "16x16", "32x32", "64x64"})
+    @Param({"4x4", "8x8", "16x16", "32x32", "64x64", "512x512", "1024000x1024000"})
     private String pair;
     private int longsCount;
     private int doublesCount;
