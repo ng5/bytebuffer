@@ -6,8 +6,6 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +13,8 @@ import java.util.List;
 @Data
 public class ByteBufferState {
     List<Object> list;
-    ByteBuffer heapByteBuffer;
-    ByteBuffer directByteBuffer;
-    
+    byte[] data;
+
     @Param({"4x4", "8x8", "16x16", "32x32", "64x64", "512x512", "1024000x1024000", "10240000x10240000"})
     private String pair;
     private int longsCount;
@@ -44,24 +41,13 @@ public class ByteBufferState {
             list.add(dArray[i]);
         }
         int capacity = longsCount * Long.BYTES + doublesCount * Double.BYTES;
-
-        heapByteBuffer = ByteBuffer.allocate(capacity).order(ByteOrder.LITTLE_ENDIAN);
-        for (int i = 0; i < longsCount; i++) {
-            heapByteBuffer.putLong(lArray[i]);
+        data = new byte[capacity];
+        for (int i = 0; i < longsCount * Long.BYTES; i += Long.BYTES) {
+            Sum.LONG_BB_VH.set(data, i, lArray[i / Long.BYTES]);
         }
-        for (int i = 0; i < doublesCount; i++) {
-            heapByteBuffer.putDouble(dArray[i]);
+        for (int i = longsCount * Long.BYTES; i < (longsCount * Long.BYTES + doublesCount * Double.BYTES); i += Double.BYTES) {
+            Sum.DOUBLE_BB_VH.set(data, i, dArray[(i - longsCount * Long.BYTES) / Double.BYTES]);
         }
-        heapByteBuffer.flip();
-
-        directByteBuffer = ByteBuffer.allocateDirect(capacity).order(ByteOrder.LITTLE_ENDIAN);
-        for (int i = 0; i < longsCount; i++) {
-            directByteBuffer.putLong(lArray[i]);
-        }
-        for (int i = 0; i < doublesCount; i++) {
-            directByteBuffer.putDouble(dArray[i]);
-        }
-        directByteBuffer.flip();
     }
 
 }

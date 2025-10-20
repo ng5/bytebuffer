@@ -22,38 +22,11 @@ public class SpatialLocalityBenchmark {
     }
 
     @Benchmark
-    public void testSumHeapBuffer(ByteBufferState byteBufferState, Blackhole blackhole) {
+    public void testSumByteArrayVarHandle(ByteBufferState byteBufferState, Blackhole blackhole) {
         int longsCount = byteBufferState.getLongsCount();
         int doublesCount = byteBufferState.getDoublesCount();
-        byteBufferState.getHeapByteBuffer().position(0);
-        var sum = Sum.byByteBuffer(byteBufferState.getHeapByteBuffer(), longsCount, doublesCount);
+        var sum = Sum.byByteArray(byteBufferState.getData(), longsCount, doublesCount);
         blackhole.consume(sum);
     }
 
-    @Benchmark
-    public void testSumDirectBuffer(ByteBufferState byteBufferState, Blackhole blackhole) {
-        int longsCount = byteBufferState.getLongsCount();
-        int doublesCount = byteBufferState.getDoublesCount();
-        byteBufferState.getDirectByteBuffer().position(0);
-        var sum = Sum.byByteBuffer(byteBufferState.getDirectByteBuffer(), longsCount, doublesCount);
-        blackhole.consume(sum);
-    }
-
-    @Benchmark
-    public void testSumHeapBufferVarHandle(ByteBufferState byteBufferState, Blackhole blackhole) {
-        int longsCount = byteBufferState.getLongsCount();
-        int doublesCount = byteBufferState.getDoublesCount();
-        byteBufferState.getHeapByteBuffer().position(0);
-        var sum = Sum.byByteBufferVarHandle(byteBufferState.getHeapByteBuffer(), longsCount, doublesCount);
-        blackhole.consume(sum);
-    }
-
-    @Benchmark
-    public void testSumDirectBufferVarHandle(ByteBufferState byteBufferState, Blackhole blackhole) {
-        int longsCount = byteBufferState.getLongsCount();
-        int doublesCount = byteBufferState.getDoublesCount();
-        byteBufferState.getDirectByteBuffer().position(0);
-        var sum = Sum.byByteBufferVarHandle(byteBufferState.getDirectByteBuffer(), longsCount, doublesCount);
-        blackhole.consume(sum);
-    }
 }
